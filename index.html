@@ -33,16 +33,18 @@
         function handleQueryParameters() {
             const queryParams = new URLSearchParams(window.location.search);
             const action = queryParams.get('action');
-            const text = queryParams.get('text');
+            const textParam = queryParams.get('text');
             const password = queryParams.get('password');
 
-            if (action === 'encrypt' && text && password) {
-                const textWithoutQuotes = text.replace(/"/g, ''); // Remove double quotes
-                const encryptedText = encrypt(textWithoutQuotes, password);
+            if (action === 'encrypt' && textParam && password) {
+                // Remove double quotes from the text parameter
+                const textInsideQuotes = textParam.match(/"(.*?)"/)[1];
+                const encryptedText = encrypt(textInsideQuotes, password);
                 displayResult(encryptedText);
-            } else if (action === 'decrypt' && text && password) {
-                const decodedText = decodeURIComponent(text); // Decode URL-encoded text
-                const decryptedText = decrypt(decodedText, password);
+            } else if (action === 'decrypt' && textParam && password) {
+                // Remove double quotes from the text parameter and decode it
+                const textInsideQuotes = decodeURIComponent(textParam).match(/"(.*?)"/)[1];
+                const decryptedText = decrypt(textInsideQuotes, password);
                 displayResult(decryptedText);
             } else {
                 displayResult('Invalid query parameters.');
