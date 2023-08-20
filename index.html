@@ -22,7 +22,12 @@
         }
 
         function decrypt(encryptedText, password) {
-            return CryptoJS.AES.decrypt(encryptedText, password).toString(CryptoJS.enc.Utf8);
+            try {
+                const decryptedBytes = CryptoJS.AES.decrypt(encryptedText, password);
+                return decryptedBytes.toString(CryptoJS.enc.Utf8);
+            } catch (error) {
+                return 'AES Decryption Failure';
+            }
         }
 
         function handleQueryParameters() {
