@@ -35,7 +35,8 @@
                 const encryptedText = encrypt(text, password);
                 displayResult(encryptedText);
             } else if (action === 'decrypt' && text && password) {
-                const decryptedText = decrypt(text, password);
+                const decodedText = decodeURIComponent(text); // Decode URL-encoded text
+                const decryptedText = decrypt(decodedText, password);
                 displayResult(decryptedText);
             } else {
                 displayResult('Invalid query parameters.');
