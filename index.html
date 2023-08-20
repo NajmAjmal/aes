@@ -37,7 +37,8 @@
             const password = queryParams.get('password');
 
             if (action === 'encrypt' && text && password) {
-                const encryptedText = encrypt(text, password);
+                const textWithoutQuotes = text.replace(/"/g, ''); // Remove double quotes
+                const encryptedText = encrypt(textWithoutQuotes, password);
                 displayResult(encryptedText);
             } else if (action === 'decrypt' && text && password) {
                 const decodedText = decodeURIComponent(text); // Decode URL-encoded text
