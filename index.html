@@ -3,91 +3,48 @@
 <head>
     <meta charset="utf-8">
     <title>AES with Cryptojs</title>
+    <style>
+        body {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-25">
-                <label for="subject">Text</label>
-            </div>
-            <div class="col-75" id="dropzone">
-                <textarea id="text" name="text" type="text" onchange="c()" placeholder="Type your secret or Drag/Drop a file here..." style="height:200px;"></textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
-                <label for="fname">Password</label>
-            </div>
-            <div class="col-75">
-                <input id="pass" name="password" type="text" placeholder="Your password..">
-            </div>
-        </div>
-    <div class="row"><br></div>
-    <div class="row">
-        <input type="button" value="Encrypt" id="encrypt" onclick="encrypt()">
-        <input type="button" value="Decrypt" id="decrypt" onclick="decrypt()">
-        <input type="button" id="create" value="Download Text" onclick="downloadtextfile()">
-        <a download="secret.txt" id="downloadlink" style="display: none"></a>
-    </div>
-</div>
-<script src="aes.js"></script>
-<script>
-var counter = 0;
-
-function downloadtextfile() {
-    if (counter) {
-        var text = document.getElementById('text').value;
-        if (text !== "") {
-            var blob = new Blob([text], { type: 'text/plain' });
-            var link = document.getElementById('downloadlink');
-            link.href = URL.createObjectURL(blob);
-            link.click();
+    <div id="result"></div>
+    <script src="aes.js"></script>
+    <script>
+        function displayResult(resultText) {
+            document.getElementById('result').textContent = resultText;
         }
-    } else {
-        alert("Encrypt the data first");
-    }
-}
 
-function c() {
-    counter = 0;
-}
+        function encrypt(text, password) {
+            return CryptoJS.AES.encrypt(text, password).toString();
+        }
 
-function encrypt() {
-    counter = 1;
-    var text = document.getElementById("text").value;
-    var password = document.getElementById("pass").value;
-    if (text && password) {
-        document.getElementById("text").value = CryptoJS.AES.encrypt(text, password);
-    } else {
-        alert("Text/Password fields can not be empty");
-    }
-}
+        function decrypt(encryptedText, password) {
+            return CryptoJS.AES.decrypt(encryptedText, password).toString(CryptoJS.enc.Utf8);
+        }
 
-function decrypt() {
-    counter = 0;
-    var encryptedText = document.getElementById("text").value;
-    var password = document.getElementById("pass").value;
-    if (encryptedText && password) {
-        document.getElementById("text").value = CryptoJS.AES.decrypt(encryptedText, password).toString(CryptoJS.enc.Utf8);
-    } else {
-        alert("Encrypted Text/Password fields can not be empty");
-    }
-}
+        function handleQueryParameters() {
+            const queryParams = new URLSearchParams(window.location.search);
+            const action = queryParams.get('action');
+            const text = queryParams.get('text');
+            const password = queryParams.get('password');
 
-document.getElementById('text').addEventListener("dragover", function(e) {
-    e.preventDefault();
-});
+            if (action === 'encrypt' && text && password) {
+                const encryptedText = encrypt(text, password);
+                displayResult(encryptedText);
+            } else if (action === 'decrypt' && text && password) {
+                const decryptedText = decrypt(text, password);
+                displayResult(decryptedText);
+            } else {
+                displayResult('Invalid query parameters.');
+            }
 
-document.getElementById('text').addEventListener("drop", function(e) {
-    counter = 0;
-    e.preventDefault();
-    var file = e.dataTransfer.files[0];
-    var reader = new FileReader();
-    reader.onload = function() {
-        document.getElementById('text').value = String(reader.result);
-    };
-    reader.readAsText(file);
-});
-</script>
+            document.body.style.display = 'block'; // Show the body after processing
+        }
+
+        handleQueryParameters();
+    </script>
 </body>
 </html>
