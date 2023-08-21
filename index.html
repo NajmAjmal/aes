@@ -30,27 +30,32 @@
             }
         }
 
+        function removeQuotes(text) {
+            // Remove double quotes from the input text
+            return text.replace(/"/g, '');
+        }
+
         function handleQueryParameters() {
             const queryParams = new URLSearchParams(window.location.search);
             const action = queryParams.get('action');
             const textParam = queryParams.get('text');
-            const password = queryParams.get('password');
+            const passwordParam = queryParams.get('password');
 
-            if (action === 'encrypt' && textParam && password) {
-                // Remove double quotes from the text parameter
+            if (action === 'encrypt' && textParam && passwordParam) {
                 const textInsideQuotes = textParam.match(/"(.*?)"/)[1];
-                const encryptedText = encrypt(textInsideQuotes, password);
+                const passwordInsideQuotes = passwordParam.match(/"(.*?)"/)[1];
+                const encryptedText = encrypt(removeQuotes(textInsideQuotes), removeQuotes(passwordInsideQuotes));
                 displayResult(encryptedText);
-            } else if (action === 'decrypt' && textParam && password) {
-                // Remove double quotes from the text parameter and decode it
+            } else if (action === 'decrypt' && textParam && passwordParam) {
                 const textInsideQuotes = decodeURIComponent(textParam).match(/"(.*?)"/)[1];
-                const decryptedText = decrypt(textInsideQuotes, password);
+                const passwordInsideQuotes = passwordParam.match(/"(.*?)"/)[1];
+                const decryptedText = decrypt(removeQuotes(textInsideQuotes), removeQuotes(passwordInsideQuotes));
                 displayResult(decryptedText);
             } else {
                 displayResult('Invalid query parameters.');
             }
 
-            document.body.style.display = 'block'; // Show the body after processing
+            document.body.style.display = 'block';
         }
 
         handleQueryParameters();
