@@ -28,8 +28,8 @@ The AES Encryption and Decryption Tool supports the following URL parameters:
 - `password`: The password used for encryption or decryption, enclosed in double quotes.
 
 Example URLs:
-- Encrypt: `https://yourdomain.com/aes/index.html?action=encrypt&text="Your_Text_Here"&password="Your_Password_Here"`
-- Decrypt: `https://yourdomain.com/aes/index.html?action=decrypt&text="Encrypted_Text_Here"&password="Your_Password_Here"`
+- Encrypt: `http://aes.najm.uk?action=encrypt&text="Your_Text_Here"&password="Your_Password_Here"`
+- Decrypt: `http://aes.najm.uk?action=decrypt&text="Encrypted_Text_Here"&password="Your_Password_Here"`
 
 View live example [here](https://github.com/NajmAjmal/aes)
 
