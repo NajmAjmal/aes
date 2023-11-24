@@ -31,11 +31,12 @@ Example URLs:
 - Encrypt: `http://aes.najm.uk?action=encrypt&text="Your_Text_Here"&password="Your_Password_Here"`
 - Decrypt: `http://aes.najm.uk?action=decrypt&text="Encrypted_Text_Here"&password="Your_Password_Here"`
 
-View live example [here](https://github.com/NajmAjmal/aes)
+View live example [here](https://najm.ajmal.cloud/aes-requests/)
 
 ## Credits
 
-This tool utilizes the CryptoJS library for AES encryption and decryption operations. It was developed by Najm Ajmal.
+This tool utilizes the CryptoJS library for AES encryption and decryption operations. 
+[AES](https://github.com/NajmAjmal/aes) was developed by Najm Ajmal.
 
 ## License
 
