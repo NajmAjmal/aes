@@ -40,4 +40,4 @@ This tool utilizes the CryptoJS library for AES encryption and decryption operat
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [Apache License version 2.0](LICENSE).
